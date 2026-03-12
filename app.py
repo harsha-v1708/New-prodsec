@@ -3,12 +3,14 @@ from flask import Flask
 
 app = Flask(__name__)
 
-# SECURITY ISSUE: A hardcoded secret (Bandit will hate this)
-DB_PASSWORD = "super_secret_password123" 
+# FIX: Get the password from the system environment, not the code
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "default_safe_value") 
 
 @app.route("/")
 def home():
-    return "Product Security Pipeline is Running!"
+    return "Product Security Pipeline is SECURE!"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # FIX: Set debug to False for production
+    app.run(debug=False) 
+
