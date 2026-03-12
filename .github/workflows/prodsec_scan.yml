@@ -1,0 +1,24 @@
+name: Product Security CI
+
+on: [push]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Tools
+        run: pip install bandit safety
+
+      - name: Run SAST (Bandit)
+        run: bandit -r app.py
+
+      - name: Run SCA (Safety)
+        run: safety scan -r requirements.txt
